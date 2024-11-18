@@ -1,0 +1,14 @@
+[package]
+name = "rust_os"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+# disable unwinding (destructions of stack frames when panicking)
+# The eh_personality language item marks a function that is used for implementing stack unwinding 
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
