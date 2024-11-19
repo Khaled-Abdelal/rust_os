@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+bootloader = "0.9"
 
 # disable unwinding (destructions of stack frames when panicking)
 # The eh_personality language item marks a function that is used for implementing stack unwinding 

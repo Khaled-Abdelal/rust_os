@@ -17,6 +17,8 @@
 
 // this forces the compilar to not mangle the name of this function aka give it a
 // random cryptic name ex: asdfaasdf  to avoid conflicts
+
+static HELLO: &[u8] = b"Hello World!";
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     // extern "C" tells the compiler to use the C CALLING_CONVENTION for this function
@@ -25,6 +27,13 @@ pub extern "C" fn _start() -> ! {
     // that makes since because an OS is not called by another function but by a bootloader
     // so it should never return and instead it should invoke the EXIT_SYSCALL to terminate the OS
     // (shutdown the machine)
+    let vga_buffer = 0xb8000 as *mut u8;
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = byte;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
+        }
+    }
     loop {}
 }
 

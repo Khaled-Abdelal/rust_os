@@ -1,0 +1,20 @@
+# recompile the core libs for the custom target
+# because the distrubuted ones are target specific
+
+# compiler-builtins-mem provides replacments for some c libraries 
+# that handle memory operations (memcpy, memset, etc)
+
+[unstable]
+build-std = ["core", "compiler_builtins"]
+build-std-features = ["compiler-builtins-mem"]
+
+# add a default target, this can also be passed a command line argument cargo build --target x86_64-blog_os.json
+[build]
+target = "x86_64_os.json"
+
+
+# alternatively the image can be booted to from the command line using 
+# qemu-system-x86_64 -drive format=raw,file=target/x86_64_os/debug/bootimage-rust_os.bin
+# this command does the same thing
+[target.'cfg(target_os = "none")']
+runner = "bootimage runner"
