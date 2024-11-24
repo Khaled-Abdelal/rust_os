@@ -26,18 +26,8 @@ pub extern "C" fn _start() -> ! {
     // that makes since because an OS is not called by another function but by a bootloader
     // so it should never return and instead it should invoke the EXIT_SYSCALL to terminate the OS
     // (shutdown the machine)
-    use core::fmt::Write;
-    vga_buffer::WRITER
-        .lock()
-        .write_str("Hello world again!")
-        .unwrap();
-    write!(
-        vga_buffer::WRITER.lock(),
-        ", some numbers: {} {}",
-        42,
-        1.337
-    )
-    .unwrap();
+    // panic!("Some panic");
+    println!("Hello World{}", "!");
     loop {}
 }
 
@@ -47,7 +37,8 @@ pub extern "C" fn _start() -> ! {
 * */
 use core::panic::PanicInfo;
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
