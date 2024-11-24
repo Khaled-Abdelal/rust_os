@@ -5,6 +5,11 @@ edition = "2021"
 
 [dependencies]
 bootloader = "0.9"
+volatile = "0.2.6" # writing to VGA can be optimized by rust (since it's not read) so this tells the compiler to not optimize it
+spin = "0.5.2"     # provides a spin lock implementation
+[dependencies.lazy_static] # lazy_static is a crate that provides a macro for defining lazy evaluated static variables
+version = "1.0"            # useful for definition static values at runtime instread of compile time. 
+features = ["spin_no_std"]
 
 # disable unwinding (destructions of stack frames when panicking)
 # The eh_personality language item marks a function that is used for implementing stack unwinding 
