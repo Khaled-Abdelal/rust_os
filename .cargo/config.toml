@@ -1,12 +1,13 @@
 # recompile the core libs for the custom target
-# because the distrubuted ones are target specific
+# because the distributed ones are target specific
 
-# compiler-builtins-mem provides replacments for some c libraries 
+# compiler-builtins-mem provides replacements for some c libraries 
 # that handle memory operations (memcpy, memset, etc)
 
 [unstable]
 build-std = ["core", "compiler_builtins"]
 build-std-features = ["compiler-builtins-mem"]
+panic-abort-tests = true                       # required to run tests because of a bug in cargo https://github.com/rust-lang/cargo/issues/7359
 
 # add a default target, this can also be passed a command line argument cargo build --target x86_64-blog_os.json
 [build]

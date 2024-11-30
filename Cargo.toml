@@ -7,6 +7,7 @@ edition = "2021"
 bootloader = "0.9"
 volatile = "0.2.6" # writing to VGA can be optimized by rust (since it's not read) so this tells the compiler to not optimize it
 spin = "0.5.2"     # provides a spin lock implementation
+x86_64 = "0.14.2"  # we use this as a high level abstraction instead of writing assembly code, specifically used to write to port mapped i/o devices
 [dependencies.lazy_static] # lazy_static is a crate that provides a macro for defining lazy evaluated static variables
 version = "1.0"            # useful for definition static values at runtime instread of compile time. 
 features = ["spin_no_std"]
@@ -18,3 +19,10 @@ panic = "abort"
 
 [profile.release]
 panic = "abort"
+
+# passes the `-device isa-debug-exit argument to QEMU
+# to exit it incase we running tests (cargo test) in is not passed in normal builds
+# isa-debug-exit uses a port mapped i/o (unlike VGA which uses memory mapped i/o)
+# iobase=0xf4,iosize=0x04` specify the i/o ports through which the device can be reached from our kernel.
+[package.metadata.bootimage]
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]
